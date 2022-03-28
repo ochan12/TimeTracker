@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/space_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="New Space"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:width="75dp"
+        android:height="75dp"
+        android:backgroundTintMode="src_in"
+        android:contentDescription="@string/start_task"
+        android:foreground="@drawable/ic_baseline_play_arrow_24"
+        android:minWidth="50dp"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/pauseTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:width="75dp"
+        android:height="75dp"
+        android:backgroundTintMode="src_in"
+        android:contentDescription="@string/pause_task"
+        android:foreground="@drawable/ic_baseline_pause_24"
+        android:minWidth="50dp"
+        android:visibility="invisible"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/stopTaskButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:width="50dp"
+        android:height="50dp"
+        android:contentDescription="@string/stop_task"
+        android:foreground="@drawable/ic_baseline_stop_24"
+        android:minWidth="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/startTaskButton"
+        app:layout_constraintEnd_toStartOf="@+id/startTaskButton"
+        app:layout_constraintTop_toTopOf="@+id/startTaskButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
