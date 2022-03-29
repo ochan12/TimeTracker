@@ -1,13 +1,12 @@
-package com.example.timetracker.persistance
+package com.example.timetracker.persistance.room
 
-import android.util.Log
 import com.example.timetracker.persistance.room.AppDatabase
-import com.example.timetracker.persistance.room.RoomModule
 import com.example.timetracker.persistance.room.TaskDao
 import com.example.timetracker.task.Task
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.withContext
 
 @Singleton
 class TaskLocalDataSource @Inject constructor(
@@ -15,9 +14,10 @@ class TaskLocalDataSource @Inject constructor(
 ) {
     private var taskDao: TaskDao = db.taskDao()
 
-      fun save(task: Task) {
-          Log.e(null, "Saving")
-         taskDao.insert(task.convertToRoom())
+      suspend fun save(task: Task): Long {
+         return withContext(Dispatchers.Default){
+                    taskDao.insert(task.convertToRoom())
+         }
     }
 
 }

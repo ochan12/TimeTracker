@@ -1,15 +1,19 @@
-package com.example.timetracker
+package com.example.timetracker.space
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.example.timetracker.R
+import com.example.timetracker.SaveTaskActivity
 import com.example.timetracker.di.DaggerApplicationGraph
 import com.example.timetracker.persistance.TaskRepository
-import com.example.timetracker.space.Space
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.*
+import java.util.concurrent.Flow
 import javax.inject.Inject
 
 class SpaceActivity : Activity() {
@@ -71,12 +75,8 @@ class SpaceActivity : Activity() {
         stopButton.setOnClickListener {
             space.stopTask()
             checkTimerStatus()
-            Single.just(taskRepository.saveTask(space.getActiveTaskTimer()?.currentTask!!))
-                .doAfterSuccess {
-                    val newIntent =
-                        Intent(applicationContext, SaveTaskActivity::class.java)
-                    startActivity(newIntent)
-                }
+
+
 
         }
         pauseButton.setOnClickListener {
