@@ -9,8 +9,7 @@ import android.widget.TextView
 import com.example.timetracker.di.DaggerApplicationGraph
 import com.example.timetracker.persistance.TaskRepository
 import com.example.timetracker.space.Space
-import kotlinx.coroutines.flow.flowOf
-import java.util.concurrent.Flow
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class SpaceActivity : Activity() {
@@ -72,9 +71,13 @@ class SpaceActivity : Activity() {
         stopButton.setOnClickListener {
             space.stopTask()
             checkTimerStatus()
-            taskRepository.saveTask(space.getActiveTaskTimer()?.currentTask!!)
-            val newIntent = Intent(applicationContext, SaveTaskActivity::class.java)
-            startActivity(newIntent)
+            Single.just(taskRepository.saveTask(space.getActiveTaskTimer()?.currentTask!!))
+                .doAfterSuccess {
+                    val newIntent =
+                        Intent(applicationContext, SaveTaskActivity::class.java)
+                    startActivity(newIntent)
+                }
+
         }
         pauseButton.setOnClickListener {
             space.pauseTask()

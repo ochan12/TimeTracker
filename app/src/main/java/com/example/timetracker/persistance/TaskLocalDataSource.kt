@@ -1,5 +1,6 @@
 package com.example.timetracker.persistance
 
+import android.util.Log
 import com.example.timetracker.persistance.room.AppDatabase
 import com.example.timetracker.persistance.room.RoomModule
 import com.example.timetracker.persistance.room.TaskDao
@@ -15,7 +16,8 @@ class TaskLocalDataSource @Inject constructor(
     private var taskDao: TaskDao = db.taskDao()
 
       fun save(task: Task) {
-         taskDao.insertAll(task.convertToRoom())
+          Log.e(null, "Saving")
+         taskDao.insert(task.convertToRoom())
     }
 
 }

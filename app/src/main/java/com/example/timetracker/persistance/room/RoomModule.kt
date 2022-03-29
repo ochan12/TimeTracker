@@ -12,7 +12,6 @@ class RoomModule {
     @Singleton
     @Provides
     fun provideRoomModule(applicationContext: Context): AppDatabase {
-        // TODO: Remove allow main threads
-        return Room.databaseBuilder(applicationContext, AppDatabase::class.java, "local-db").allowMainThreadQueries().build()
+        return Room.databaseBuilder(applicationContext, AppDatabase::class.java, "local-db").build()
     }
 }

@@ -17,6 +17,6 @@ interface TaskDao {
     fun getByUid(uid: Int): RoomTask?
 
     @Insert
-    fun insertAll(vararg users: RoomTask)
+    fun insert(room: RoomTask)
 
 }
