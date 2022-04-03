@@ -24,8 +24,8 @@ class Converters {
     fun toRoomTask(task: Task) = RoomTask(
         0,
         task.getDescription(),
-        task.getStartTime()!!.millis,
-        task.getEndTime()!!.millis,
+        task.getStartTime()!!,
+        task.getEndTime()!!,
         task.getTimeIntervals(),
         createdAt = DateTime().toString()
     )

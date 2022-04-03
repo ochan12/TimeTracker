@@ -1,39 +1,71 @@
 package com.example.timetracker.space
 
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.timetracker.SaveTaskActivity
-import io.reactivex.rxjava3.core.Single
+import com.example.timetracker.helpers.Taggable
+import com.example.timetracker.persistance.SpaceRepository
+import com.example.timetracker.persistance.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class SpaceViewModel: ViewModel() {
-    private val spaces: MutableLiveData<List<Space>> by lazy {
+class SpaceViewModel @Inject constructor(
+    private val taskRepository: TaskRepository,
+    private val spaceRepository: SpaceRepository,
+) : ViewModel(), Taggable {
+
+    private val savedTaskId: MutableLiveData<String?> = MutableLiveData(null)
+
+    fun getSavedTaskId() = savedTaskId
+
+    private val _spaces: MutableLiveData<List<Space>> by lazy {
         MutableLiveData<List<Space>>().also {
             loadSpaces()
         }
     }
 
-    private fun loadSpaces() {
-//        val scope = CoroutineScope(Job() + Dispatchers.Main)
-//        val job = async {
-//            taskRepository.saveTask(space.getActiveTaskTimer()?.currentTask!!)
-//        }
-//        coroutineScope {
-//
-//        }
-//        Flow()
-//        Single.just(job).subscribe { it ->
-//            Log.e("Taski", it.toString())
-//
-//            val newIntent =
-//                Intent(applicationContext, SaveTaskActivity::class.java)
-//
-//            // newIntent.putExtra("taskId", it)
-//            startActivity(newIntent)
-//        }
+    fun getSpaces() = _spaces
+
+    private val _isLoading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().also {
+            it.value = true
+        }
+    }
+
+    fun isLoading() = _isLoading
+
+    private val _space: MutableLiveData<Space> by lazy {
+        MutableLiveData<Space>().also {
+            it.value = Space("New Space")
+        }
+    }
+
+    fun getSpace() = _space
+
+    fun loadSpaces() {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.coroutineContext.also {
+            spaceRepository.getSpaces("yo")
+        }
+
+    }
+
+    fun saveTask() {
+        Log.e(TAG, "savetask")
+        _isLoading.postValue(true)
+
+        taskRepository.saveTask(
+            _space.value?.getActiveTaskTimer()?.currentTask!!
+        ).subscribe({
+            Log.e(TAG, "saved task $it")
+            _isLoading.postValue(false)
+            savedTaskId.postValue(it)
+        },
+        {
+            Log.e(TAG, it.message.toString())
+        })
+
     }
 }

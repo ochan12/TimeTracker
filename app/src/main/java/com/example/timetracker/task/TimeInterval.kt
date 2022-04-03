@@ -3,11 +3,24 @@ package com.example.timetracker.task
 import org.joda.time.DateTime
 
 class TimeInterval constructor(
-    private val startTime: DateTime?,
-    private var endTime: DateTime?
+    private var startTime: Long?,
+    private var endTime: Long?
 ) {
 
-    fun setEndTime(endTime: DateTime?) = apply { this.endTime = endTime }
+    private var ongoing = false
+
+    constructor() : this(null, null) {
+        startTime = null
+        endTime = null
+    }
+
+    fun setStartTime(startTime: Long) {
+        this.startTime = startTime
+    }
+
+    fun setEndTime(endTime: Long) {
+         this.endTime = endTime
+    }
 
     fun getEndTime() = endTime
     fun getStartTime() = startTime
@@ -16,7 +29,10 @@ class TimeInterval constructor(
         return "interval { startTime: $startTime, endTime: $endTime } "
     }
 
-    fun isOngoing(): Boolean = hasStarted() && endTime === null
+    fun isOngoing(): Boolean {
+        ongoing = hasStarted() && endTime === null
+        return ongoing
+    }
 
     fun hasStarted() = startTime !== null
 }

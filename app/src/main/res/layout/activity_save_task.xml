@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spaceSpinner">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/startDateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="false"
@@ -62,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/endDateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="false"

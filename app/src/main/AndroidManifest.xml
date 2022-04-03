@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".space.SpaceActivity" />
-        <activity android:name=".SaveTaskActivity" />
+        <activity android:name=".task.SaveTaskActivity" />
     </application>
 
 </manifest>
