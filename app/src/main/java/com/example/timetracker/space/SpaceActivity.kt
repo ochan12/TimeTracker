@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.timetracker.R
 import com.example.timetracker.task.SaveTaskActivity
 import com.example.timetracker.di.DaggerApplicationGraph
+import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository
 import javax.inject.Inject
@@ -22,13 +23,16 @@ class SpaceActivity @Inject constructor() : AppCompatActivity() {
     @Inject
     lateinit var spaceSource: SpaceRepository
 
+    @Inject
+    lateinit var authRepository: AuthRepository
+
     lateinit var startButton: Button
     lateinit var pauseButton: Button
     lateinit var stopButton: Button
 
 
     private val model: SpaceViewModel by viewModels {
-        SpaceViewModelFactory(taskRepository, spaceSource)
+        SpaceViewModelFactory(taskRepository, spaceSource, authRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

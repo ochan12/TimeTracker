@@ -15,7 +15,6 @@ class SaveTaskViewModel @Inject constructor(
     fun getTask() = task
 
     fun loadTask(taskId: String) {
-        Log.e(TAG, taskId)
         taskRepository.getTask(taskId).subscribe {
             task.postValue(it)
         }

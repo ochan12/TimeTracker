@@ -8,6 +8,6 @@ import dagger.Provides
 class SpaceModule {
     @Provides
     fun provideSpace(): Space {
-        return Space("Mateo's space")
+        return Space()
     }
 }

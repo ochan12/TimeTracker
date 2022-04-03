@@ -33,7 +33,6 @@ class SaveTaskActivity @Inject constructor(): AppCompatActivity(), Taggable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_task)
         DaggerApplicationGraph.factory().create(applicationContext).inject(this)
-        Log.e(TAG, intent.getStringExtra("taskId").toString())
         initializeElements()
         intent.getStringExtra("taskId")?.let { model.loadTask(it) }
     }

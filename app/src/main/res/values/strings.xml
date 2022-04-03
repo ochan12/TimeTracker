@@ -8,4 +8,5 @@
     <string name="save">Save</string>
     <string name="start_date">Start</string>
     <string name="end_date">End</string>
+    <string name="create_space">New space</string>
 </resources>

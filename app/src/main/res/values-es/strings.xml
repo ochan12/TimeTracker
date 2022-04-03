@@ -9,4 +9,5 @@
     <string name="save">Guardar</string>
     <string name="start_date">Comienzo</string>
     <string name="end_date">Fin</string>
+    <string name="create_space">Crear espacio</string>
 </resources>
