@@ -15,7 +15,8 @@ class SpaceAdapter constructor(private val dataSet: List<Space>) :
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val spaceName: TextView = view.findViewById(R.id.space_name)
+
+        val spaceName: TextView = view.findViewById(R.id.select_space_space_name)
 
     }
 

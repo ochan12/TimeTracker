@@ -41,10 +41,11 @@ class MainMenuActivity : AppCompatActivity(R.layout.activity_main_menu) {
     private fun initializeElements() {
         spacesRecyclerView = findViewById(R.id.rv_spaces)
         createSpaceButton = findViewById(R.id.createSpaceButton)
-        spacesRecyclerView.layoutManager = GridLayoutManager(this, 2)
         spacesRecyclerView.adapter = SpaceAdapter(spacesList)
+        spacesRecyclerView.layoutManager = GridLayoutManager(this, 2)
         model.getSpaces().observe(this) {
-            spacesList = it?.toList() as ArrayList<Space>
+            spacesList.clear()
+            it?.forEach { space -> spacesList.add(space) }
             spacesRecyclerView.adapter?.notifyDataSetChanged()
         }
         createSpaceButton.setOnClickListener {
