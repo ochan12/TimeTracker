@@ -7,28 +7,20 @@ import com.example.timetracker.helpers.Taggable
 import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import javax.inject.Inject
 
 class SpaceViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val spaceRepository: SpaceRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val spaceId: String
 ) : ViewModel(), Taggable {
 
     private val savedTaskId: MutableLiveData<String?> = MutableLiveData(null)
 
+
     fun getSavedTaskId() = savedTaskId
 
-    private val _spaces: MutableLiveData<List<Space>> by lazy {
-        MutableLiveData<List<Space>>().also {
-            loadSpaces()
-        }
-    }
-
-    fun getSpaces() = _spaces
 
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().also {
@@ -40,34 +32,35 @@ class SpaceViewModel @Inject constructor(
 
     private val _space: MutableLiveData<Space> by lazy {
         MutableLiveData<Space>().also {
-            it.value = Space()
+            loadSpace(spaceId)
         }
+    }
+
+    fun loadSpace(spaceId: String) {
+        spaceRepository.getSpace(spaceId).subscribe({
+            _space.postValue(it)
+        }, {
+            Log.e(TAG, it.message.toString())
+        })
     }
 
     fun getSpace() = _space
 
-    fun loadSpaces() {
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.coroutineContext.also {
-            authRepository.getUserId()?.let { it1 -> spaceRepository.getSpaces(it1) }
-        }
-
-    }
 
     fun saveTask() {
-        Log.e(TAG, "savetask")
         _isLoading.postValue(true)
-
+        val task = _space.value?.getActiveTaskTimer()?.currentTask!!
+        task.setSpace(spaceId)
         taskRepository.saveTask(
-            _space.value?.getActiveTaskTimer()?.currentTask!!
+            task
         ).subscribe({
             Log.e(TAG, "saved task $it")
             _isLoading.postValue(false)
             savedTaskId.postValue(it)
         },
-        {
-            Log.e(TAG, it.message.toString())
-        })
+            {
+                Log.e(TAG, it.message.toString())
+            })
 
     }
 }

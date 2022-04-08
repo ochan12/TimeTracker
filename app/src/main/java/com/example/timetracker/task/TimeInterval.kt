@@ -1,6 +1,7 @@
 package com.example.timetracker.task
 
 import org.joda.time.DateTime
+import org.joda.time.Seconds
 
 class TimeInterval constructor(
     private var startTime: Long?,
@@ -35,4 +36,8 @@ class TimeInterval constructor(
     }
 
     fun hasStarted() = startTime !== null
+
+    fun getTotalTime(): Long {
+        return DateTime(endTime).millis - DateTime(startTime).millis
+    }
 }

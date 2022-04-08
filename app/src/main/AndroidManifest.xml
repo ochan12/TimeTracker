@@ -26,6 +26,8 @@
         <activity android:name=".auth.LoginActivity" />
         <activity android:name=".main_menu.MainMenuActivity" />
         <activity android:name=".createSpace.CreateSpaceActivity" />
+        <activity android:name=".auth.ProfileActivity" />
+        <activity android:name=".task.ListTasksActivity" />
 
     </application>
 </manifest>

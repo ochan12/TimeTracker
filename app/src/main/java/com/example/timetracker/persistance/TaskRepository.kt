@@ -10,13 +10,19 @@ import javax.inject.Singleton
 
 @Singleton
 class TaskRepository @Inject constructor(
-    private val remoteSource: TaskRemoteSource
+    private val remoteSource: TaskRemoteSource,
+    private val authRepository: AuthRepository
 ) {
     fun saveTask(task: Task): Observable<String> {
+        task.setUserId(authRepository.getUserId())
         return remoteSource.saveTask(task)
     }
 
     fun getTask(taskId: String): Observable<Task?> {
         return remoteSource.getTask(taskId)
+    }
+
+    fun getAllTasks(): Observable<List<Task>> {
+        return remoteSource.loadTasks(authRepository.getUserId())
     }
 }

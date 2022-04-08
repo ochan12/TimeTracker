@@ -2,6 +2,7 @@ package com.example.timetracker.space
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -32,7 +33,8 @@ class SpaceActivity @Inject constructor() : AppCompatActivity() {
 
 
     private val model: SpaceViewModel by viewModels {
-        SpaceViewModelFactory(taskRepository, spaceSource, authRepository)
+        val spaceId = intent.getStringExtra("spaceId")
+        SpaceViewModelFactory(taskRepository, spaceSource, authRepository, spaceId!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,15 +54,18 @@ class SpaceActivity @Inject constructor() : AppCompatActivity() {
 
         model.getSavedTaskId().observe(this) {
             if (it !== null) {
-                val intent = Intent(this, SaveTaskActivity::class.java)
-                intent.putExtra("taskId", it)
-                startActivity(intent)
+                val newIntent = Intent(this, SaveTaskActivity::class.java)
+                newIntent.putExtra("taskId", it)
+                newIntent.putExtra("spaceId", intent.getStringExtra("spaceId"))
+                startActivity(newIntent)
             }
         }
 
         startButton = findViewById(R.id.startTaskButton)
         stopButton = findViewById(R.id.stopTaskButton)
         pauseButton = findViewById(R.id.pauseTaskButton)
+
+
         setClickListeners()
     }
 
@@ -84,7 +89,6 @@ class SpaceActivity @Inject constructor() : AppCompatActivity() {
             model.getSpace().value?.stopTask()
             model.saveTask()
             finish()
-
         }
         pauseButton.setOnClickListener {
             model.getSpace().value?.pauseTask()

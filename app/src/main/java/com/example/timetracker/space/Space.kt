@@ -12,7 +12,12 @@ class Space @Inject constructor() {
 
     private var name: String = ""
     private var userId: String = ""
+    private var id: String = ""
 
+    fun getId() = id
+    fun setId(id: String) {
+        this.id = id
+    }
 
     fun pauseTask() {
         activeTaskTimer?.pauseTask()
@@ -39,5 +44,10 @@ class Space @Inject constructor() {
     fun setUserId(userId: String) {
         this.userId = userId
     }
+
+    override fun toString(): String {
+        return "Space(activeTaskTimer=$activeTaskTimer, name='$name', userId='$userId', id='$id')"
+    }
+
 
 }

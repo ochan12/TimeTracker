@@ -15,4 +15,8 @@ class AuthRemoteSource @Inject constructor(
     override fun getCurrentUser(): Any? {
         return auth.currentUser
     }
+
+    override fun signOut() {
+        return auth.signOut()
+    }
 }

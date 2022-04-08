@@ -8,15 +8,35 @@ import com.example.timetracker.persistance.TaskRepository
 import javax.inject.Inject
 
 class SaveTaskViewModel @Inject constructor(
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val taskId: String,
+    private val spaceId: String,
 ): ViewModel(), Taggable {
-    private val task: MutableLiveData<Task> = MutableLiveData(null)
+    private val _task: MutableLiveData<Task> by lazy {
+        MutableLiveData<Task>().also {
+            loadTask()
+        }
+    }
 
-    fun getTask() = task
+    val clicked = MutableLiveData(false)
+    private val isSaving: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun loadTask(taskId: String) {
+    fun isSaving() = isSaving
+    fun getTask() = _task
+
+    fun loadTask() {
         taskRepository.getTask(taskId).subscribe {
-            task.postValue(it)
+            _task.postValue(it)
+        }
+    }
+
+    fun saveTask(description: String) {
+        isSaving.postValue(true)
+        val finalTask: Task = _task.value!!
+        finalTask.setDescription(description)
+        finalTask.setSpace(spaceId)
+        taskRepository.saveTask(finalTask).subscribe {
+            isSaving.postValue(false)
         }
     }
 }

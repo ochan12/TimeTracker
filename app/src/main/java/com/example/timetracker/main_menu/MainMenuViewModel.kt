@@ -12,8 +12,13 @@ class MainMenuViewModel @Inject constructor(
     private val spaceRepository: SpaceRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    private val spaces: MutableLiveData<List<Space>?> = MutableLiveData(null)
+    private val spaces: MutableLiveData<List<Space>?> by lazy {
+        MutableLiveData<List<Space>?>().also {
+            loadSpaces()
+        }
+    }
 
+    @JvmName("getSpaces1")
     fun getSpaces() = spaces
 
     fun loadSpaces() {

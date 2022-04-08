@@ -15,4 +15,7 @@ class SpaceRepository @Inject constructor(
     fun getSpaces(userId: String): Observable<List<Space>> {
         return remoteSpaceRepository.getSpaces(userId)
     }
+    fun getSpace(spaceId: String): Observable<Space> {
+        return remoteSpaceRepository.getSpace(spaceId)
+    }
 }

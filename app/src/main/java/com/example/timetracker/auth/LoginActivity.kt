@@ -32,6 +32,7 @@ class LoginActivity @Inject constructor() : AppCompatActivity(), Taggable {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.AnonymousBuilder().build()
         )
 
         val signInIntent = AuthUI.getInstance()

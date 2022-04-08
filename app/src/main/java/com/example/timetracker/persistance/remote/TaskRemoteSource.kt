@@ -16,8 +16,13 @@ class TaskRemoteSource @Inject constructor(
     override fun getTask(id: String): Observable<Task?> {
         val ref = db.collection(this.collection).document(id).get()
         return Observable.create { emitter ->
-            ref.addOnCompleteListener {
-                emitter.onNext(it?.result?.toObject(Task::class.java))
+            ref.addOnCompleteListener { doc ->
+                val task = doc.result.toObject(Task::class.java)
+                if (task != null) {
+                    task.setId(doc.result.id)
+                }
+
+                emitter.onNext(task)
             }
         }
     }
@@ -26,7 +31,11 @@ class TaskRemoteSource @Inject constructor(
         val ref = db.collection(this.collection).whereEqualTo("user", user).get()
         return Observable.create { emitter ->
             ref.addOnCompleteListener {
-                emitter.onNext(it.result?.toObjects(Task::class.java).orEmpty())
+                it.result?.map { doc ->
+                    val task = doc.toObject(Task::class.java)
+                    task.setId(doc.id)
+                    task
+                }?.let { it1 -> emitter.onNext(it1) }
             }
         }
     }

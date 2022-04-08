@@ -9,4 +9,9 @@
     <string name="start_date">Start</string>
     <string name="end_date">End</string>
     <string name="create_space">New space</string>
+    <string name="spaces">Spaces</string>
+    <string name="profile">Profile</string>
+    <string name="activity">Activity</string>
+    <string name="sign_out">Sign out</string>
+    <string name="duration">Total time</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.timetracker.di
 
 import android.content.Context
 import com.example.timetracker.MainActivity
+import com.example.timetracker.auth.ProfileActivity
 import com.example.timetracker.createSpace.CreateSpaceActivity
 import com.example.timetracker.main_menu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepositoryModule
@@ -11,6 +12,7 @@ import com.example.timetracker.persistance.remote.FirebaseModule
 import com.example.timetracker.persistance.room.RoomModule
 import com.example.timetracker.space.SpaceActivity
 import com.example.timetracker.space.SpaceModule
+import com.example.timetracker.task.ListTasksActivity
 import com.example.timetracker.task.SaveTaskActivity
 import com.example.timetracker.timer.TimerModule
 import dagger.BindsInstance
@@ -31,6 +33,8 @@ interface ApplicationGraph {
     fun inject(app: MainActivity)
     fun inject(app: MainMenuActivity)
     fun inject(app: CreateSpaceActivity)
+    fun inject(app: ListTasksActivity)
+    fun inject(app: ProfileActivity)
 
     @Component.Factory
     interface Factory {

@@ -9,9 +9,10 @@ import com.example.timetracker.persistance.TaskRepository
 class SpaceViewModelFactory(
     val taskDb: TaskRepository,
     val db: SpaceRepository,
-    val authRepository: AuthRepository
+    val authRepository: AuthRepository,
+    val spaceId: String
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        SpaceViewModel(taskDb, db, authRepository) as T
+        SpaceViewModel(taskDb, db, authRepository, spaceId) as T
 }

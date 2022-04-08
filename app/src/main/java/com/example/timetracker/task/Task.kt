@@ -1,10 +1,10 @@
 package com.example.timetracker.task
 
 import com.example.timetracker.persistance.room.RoomTask
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.SingleObserver
-import io.reactivex.rxjava3.core.SingleSource
+import com.google.firebase.firestore.Exclude
 import org.joda.time.DateTime
+import org.joda.time.Hours
+import org.joda.time.Seconds
 import javax.inject.Inject
 
 class Task @Inject constructor() {
@@ -15,7 +15,7 @@ class Task @Inject constructor() {
     private var space: String? = ""
     private var userId: String? = ""
     private var id: String? = ""
-    private var isTaskOngoing: Boolean= false
+    private var isTaskOngoing: Boolean = false
         set(value) {
             field = value
         }
@@ -38,9 +38,11 @@ class Task @Inject constructor() {
     fun setDescription(description: String) {
         this.description = description
     }
+
     fun setStartTime(startTime: Long) {
-         this.startTime = startTime
+        this.startTime = startTime
     }
+
     fun setEndTime(endTime: Long) {
         this.endTime = endTime
     }
@@ -52,8 +54,12 @@ class Task @Inject constructor() {
     fun setSpace(space: String) {
         this.space = space
     }
+
     fun setUserId(userId: String) {
         this.userId = userId
+    }
+    fun setId(id: String) {
+        this.id = id
     }
 
     fun startTask() {
@@ -73,7 +79,7 @@ class Task @Inject constructor() {
         timeIntervals[timeIntervals.lastIndex].setEndTime(now)
     }
 
-    fun isTaskOngoing(): Boolean{
+    fun isTaskOngoing(): Boolean {
         isTaskOngoing = this.startTime !== null && this.timeIntervals.last().isOngoing()
         return isTaskOngoing
     }
@@ -93,5 +99,22 @@ class Task @Inject constructor() {
         timeIntervals,
         createdAt = DateTime().toString()
     )
+    @Exclude
+    private fun getTotalTime(): Seconds {
+        val seconds: Long = 0
+        this.timeIntervals.forEach {
+            seconds.plus(it.getTotalTime())
+        }
+        return Seconds.seconds((seconds / 1000).toInt())
+    }
+
+    @Exclude
+    fun getDuration(): String {
+        val minutes = getTotalTime().toStandardMinutes()
+        val hours = getTotalTime().toStandardHours()
+        val seconds = getTotalTime()
+        if(hours.isGreaterThan(Hours.ZERO)) return "${hours.hours}h ${minutes.minutes}m"
+        return "${minutes.minutes}m ${seconds.seconds}s"
+    }
 
 }

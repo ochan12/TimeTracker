@@ -7,11 +7,12 @@ import com.example.timetracker.auth.LoginActivity
 import com.example.timetracker.di.DaggerApplicationGraph
 import com.example.timetracker.main_menu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepository
-import com.example.timetracker.space.SpaceActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.lang.NumberFormatException
 import javax.inject.Inject
 
 class MainActivity @Inject constructor() : AppCompatActivity() {
+
 
     @Inject
     lateinit var authRepository: AuthRepository
@@ -20,11 +21,12 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         DaggerApplicationGraph.factory().create(applicationContext).inject(this)
         super.onCreate(savedInstanceState)
         // setContentView(R.layout.activity_main)
-        val newIntent: Intent? = if(authRepository.currentUser() !== null){
+        val newIntent: Intent = if (authRepository.currentUser() !== null) {
             Intent(this, MainMenuActivity::class.java)
         } else {
             Intent(this, LoginActivity::class.java)
         }
+
         startActivity(newIntent)
     }
 }

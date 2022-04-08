@@ -13,4 +13,12 @@ class AuthRepository @Inject constructor(
     fun currentUser(): Any? {
         return authRemoteSource.getCurrentUser()
     }
+
+    fun isOnline(): Boolean {
+        return authRemoteSource.getCurrentUser() != null
+    }
+
+    fun signOut(): Unit{
+        return authRemoteSource.signOut()
+    }
 }
