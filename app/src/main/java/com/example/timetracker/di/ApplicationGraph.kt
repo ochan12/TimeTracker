@@ -24,9 +24,10 @@ import javax.inject.Singleton
     SpaceModule::class,
     RoomModule::class,
     FirebaseModule::class,
+    AuthRepositoryModule::class,
     SpaceRepositoryModule::class,
-    TaskRepositoryModule::class,
-    AuthRepositoryModule::class])
+    TaskRepositoryModule::class
+    ])
 interface ApplicationGraph {
     fun inject(app: SpaceActivity)
     fun inject(app: SaveTaskActivity)

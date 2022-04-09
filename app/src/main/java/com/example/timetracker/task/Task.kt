@@ -3,7 +3,6 @@ package com.example.timetracker.task
 import com.example.timetracker.persistance.room.RoomTask
 import com.google.firebase.firestore.Exclude
 import org.joda.time.DateTime
-import org.joda.time.Hours
 import org.joda.time.Seconds
 import javax.inject.Inject
 
@@ -58,9 +57,12 @@ class Task @Inject constructor() {
     fun setUserId(userId: String) {
         this.userId = userId
     }
+
     fun setId(id: String) {
         this.id = id
     }
+
+    fun getId(): String? = this.id
 
     fun startTask() {
         val now = DateTime().millis
@@ -99,22 +101,26 @@ class Task @Inject constructor() {
         timeIntervals,
         createdAt = DateTime().toString()
     )
+
     @Exclude
-    private fun getTotalTime(): Seconds {
-        val seconds: Long = 0
+    private fun getTotalTime(): Long {
+        var millis: Long = 0
         this.timeIntervals.forEach {
-            seconds.plus(it.getTotalTime())
+            millis = millis.plus(it.getTotalTime())
         }
-        return Seconds.seconds((seconds / 1000).toInt())
+        return millis
     }
 
     @Exclude
     fun getDuration(): String {
-        val minutes = getTotalTime().toStandardMinutes()
-        val hours = getTotalTime().toStandardHours()
-        val seconds = getTotalTime()
-        if(hours.isGreaterThan(Hours.ZERO)) return "${hours.hours}h ${minutes.minutes}m"
-        return "${minutes.minutes}m ${seconds.seconds}s"
+        val seconds = Seconds.seconds((getTotalTime() / 1000).toInt())
+        val hours = seconds.toStandardHours().hours
+        val minutes = seconds.toStandardMinutes().minutes
+        val millis = getTotalTime()
+
+        if (hours > 0) return "${hours}h ${minutes}m"
+        if (minutes > 0) return "${minutes}m ${seconds.seconds}s"
+        return "${seconds.seconds}s ${millis}ms"
     }
 
 }

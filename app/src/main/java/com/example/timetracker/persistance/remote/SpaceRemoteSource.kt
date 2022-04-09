@@ -30,7 +30,6 @@ class SpaceRemoteSource @Inject constructor(
         val ref = db.collection(this.collection).whereEqualTo("userId", userId).get()
         return Observable.create { emitter ->
             ref.addOnCompleteListener {
-                val space =
                 emitter.onNext(it.result.map { doc ->
                     val space = doc.toObject(Space::class.java)
                     space.setId(doc.id)

@@ -38,6 +38,7 @@ class LoginActivity @Inject constructor() : AppCompatActivity(), Taggable {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+            .setAlwaysShowSignInMethodScreen(true)
             .build()
         signInLauncher.launch(signInIntent)
     }

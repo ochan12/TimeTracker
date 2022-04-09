@@ -40,6 +40,10 @@ class ProfileActivity : AppCompatActivity() {
         signOutButton = findViewById(R.id.signOutButton)
         signOutButton.setOnClickListener {
             model.signOut()
+            val newIntent = Intent(this, LoginActivity::class.java)
+            newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(newIntent)
+            finish()
         }
         val bottomNavigationView: BottomNavigationView =
             findViewById(R.id.navigation_bottom_bar_root)

@@ -28,7 +28,7 @@ class TaskRemoteSource @Inject constructor(
     }
 
     override fun loadTasks(user: String): Observable<List<Task>> {
-        val ref = db.collection(this.collection).whereEqualTo("user", user).get()
+        val ref = db.collection(this.collection).whereEqualTo("userId", user).get()
         return Observable.create { emitter ->
             ref.addOnCompleteListener {
                 it.result?.map { doc ->
@@ -45,6 +45,13 @@ class TaskRemoteSource @Inject constructor(
     }
 
     override fun saveTask(task: Task): Observable<String> {
+        if(task.getId() !== null && task.getId() != ""){
+            return Observable.create { emitter ->
+                db.collection(this.collection).document(task.getId()!!).set(task).addOnCompleteListener {
+                    emitter.onNext(task.getId()!!)
+                }
+            }
+        }
         return Observable.create { emitter ->
             db.collection(this.collection).add(task).addOnCompleteListener {
                 emitter.onNext(it.result?.id!!)
