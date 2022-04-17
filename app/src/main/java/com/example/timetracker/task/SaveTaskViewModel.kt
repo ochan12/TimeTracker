@@ -1,9 +1,9 @@
 package com.example.timetracker.task
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.timetracker.helpers.Taggable
+import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.TaskRepository
 import javax.inject.Inject
 
@@ -11,7 +11,8 @@ class SaveTaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val taskId: String,
     private val spaceId: String,
-): ViewModel(), Taggable {
+    private val authRepository: AuthRepository
+) : ViewModel(), Taggable {
     private val _task: MutableLiveData<Task> by lazy {
         MutableLiveData<Task>().also {
             loadTask()
@@ -35,8 +36,11 @@ class SaveTaskViewModel @Inject constructor(
         val finalTask: Task = _task.value!!
         finalTask.setDescription(description)
         finalTask.setSpace(spaceId)
-        taskRepository.saveTask(finalTask).subscribe {
-            isSaving.postValue(false)
+        authRepository.getUserId().subscribe { userId ->
+            finalTask.setUserId(userId)
+            taskRepository.saveTask(finalTask).subscribe {
+                isSaving.postValue(false)
+            }
         }
     }
 }

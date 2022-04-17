@@ -1,5 +1,6 @@
 package com.example.timetracker.user
 
+
 class User {
     private var id: String = ""
     private var name: String = ""

@@ -1,6 +1,5 @@
 package com.example.timetracker.main_menu
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.timetracker.persistance.AuthRepository
@@ -22,8 +21,10 @@ class MainMenuViewModel @Inject constructor(
     fun getSpaces() = spaces
 
     fun loadSpaces() {
-        spaceRepository.getSpaces(authRepository.getUserId()).subscribe {
-            spaces.postValue(it)
+        authRepository.getUserId().subscribe { userId ->
+            spaceRepository.getSpaces(userId).subscribe {
+                spaces.postValue(it)
+            }
         }
     }
 }

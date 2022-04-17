@@ -1,5 +1,6 @@
 package com.example.timetracker.task
 
+import android.app.AuthenticationRequiredException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.timetracker.R
 import com.example.timetracker.di.DaggerApplicationGraph
 import com.example.timetracker.helpers.Taggable
+import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository
 import com.example.timetracker.space.SpaceActivity
@@ -27,12 +29,15 @@ class SaveTaskActivity @Inject constructor() : AppCompatActivity(), Taggable {
 
     @Inject
     lateinit var spaceSource: SpaceRepository
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     private val model: SaveTaskViewModel by viewModels {
         SaveTaskViewModelFactory(
             taskRepository,
             intent.getStringExtra("taskId")!!,
-            intent.getStringExtra("spaceId")!!
+            intent.getStringExtra("spaceId")!!,
+            authRepository
         )
     }
 

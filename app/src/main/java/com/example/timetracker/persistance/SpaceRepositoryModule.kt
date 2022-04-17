@@ -8,9 +8,8 @@ import dagger.Provides
 class SpaceRepositoryModule {
     @Provides
     fun provideSpaceRepository(
-        spaceRemoteSource: SpaceRemoteSource,
-        authRepository: AuthRepository
+        spaceRemoteSource: SpaceRemoteSource
     ): SpaceRepository {
-        return SpaceRepository(spaceRemoteSource, authRepository)
+        return SpaceRepository(spaceRemoteSource)
     }
 }

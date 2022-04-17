@@ -2,6 +2,7 @@ package com.example.timetracker.task
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository
 import com.example.timetracker.space.Space
@@ -10,6 +11,7 @@ import javax.inject.Inject
 class ListTasksViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val spaceRepository: SpaceRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val spaces: MutableLiveData<List<Space>> by lazy {
@@ -27,8 +29,10 @@ class ListTasksViewModel @Inject constructor(
     }
 
     private fun loadSpaces() {
-        spaceRepository.getSpaces().subscribe {
-            spaces.postValue(it)
+        authRepository.getUserId().subscribe { userId ->
+            spaceRepository.getSpaces(userId).subscribe {
+                spaces.postValue(it)
+            }
         }
     }
 
@@ -36,8 +40,10 @@ class ListTasksViewModel @Inject constructor(
     fun getTasks() = tasks
 
     private fun loadTasks() {
-        taskRepository.getAllTasks().subscribe {
-            tasks.postValue(it)
+        authRepository.getUserId().subscribe { userId ->
+            taskRepository.getAllTasks(userId).subscribe {
+                tasks.postValue(it)
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ import dagger.Provides
 @Module
 class TaskRepositoryModule {
     @Provides
-    fun provideTaskRepository(remoteTaskSource: TaskRemoteSource, authRepository: AuthRepository): TaskRepository {
-        return TaskRepository(remoteTaskSource, authRepository)
+    fun provideTaskRepository(remoteTaskSource: TaskRemoteSource): TaskRepository {
+        return TaskRepository(remoteTaskSource)
     }
 }

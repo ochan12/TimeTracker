@@ -10,6 +10,7 @@ import com.example.timetracker.R
 import com.example.timetracker.auth.ProfileActivity
 import com.example.timetracker.di.DaggerApplicationGraph
 import com.example.timetracker.main_menu.MainMenuActivity
+import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository
 import com.example.timetracker.space.Space
@@ -28,13 +29,16 @@ class ListTasksActivity : AppCompatActivity() {
     @Inject
     lateinit var spaceRepository: SpaceRepository
 
+    @Inject
+    lateinit var authRepository: AuthRepository
+
     private lateinit var tasksRecyclerView: RecyclerView
 
     private var taskList: ArrayList<Task> = ArrayList()
     private var spaceList: ArrayList<Space> = ArrayList()
 
     private val model: ListTasksViewModel by viewModels {
-        ListTasksViewModelFactory(taskRepository, spaceRepository)
+        ListTasksViewModelFactory(taskRepository, spaceRepository, authRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

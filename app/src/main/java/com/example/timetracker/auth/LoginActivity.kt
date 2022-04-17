@@ -39,6 +39,7 @@ class LoginActivity @Inject constructor() : AppCompatActivity(), Taggable {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setAlwaysShowSignInMethodScreen(true)
+            .setIsSmartLockEnabled(false)
             .build()
         signInLauncher.launch(signInIntent)
     }

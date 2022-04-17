@@ -23,9 +23,11 @@ class CreateSpaceViewModel @Inject constructor(
 
     fun createSpace(){
         if(currentSpace.getName() !== ""){
-            authRepository.getUserId().let { currentSpace.setUserId(it) }
-            spaceRepository.saveSpace(currentSpace).subscribe {
-                isCreated.postValue(true)
+            authRepository.getUserId().subscribe {
+                currentSpace.setUserId(it)
+                spaceRepository.saveSpace(currentSpace).subscribe {
+                    isCreated.postValue(true)
+                }
             }
         }
     }
