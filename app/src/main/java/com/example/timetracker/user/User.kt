@@ -1,11 +1,14 @@
 package com.example.timetracker.user
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 
+@Entity(primaryKeys = ["id"])
 class User {
-    private var id: String = ""
-    private var name: String = ""
-    private var lastName: String = ""
-    private var email: String = ""
+    @ColumnInfo(name = "id") private var id: String = ""
+    @ColumnInfo(name = "name") private var name: String = ""
+    @ColumnInfo(name = "lastName") private var lastName: String = ""
+    @ColumnInfo(name = "email") private var email: String = ""
 
     fun getId() = id
     fun getName() = name

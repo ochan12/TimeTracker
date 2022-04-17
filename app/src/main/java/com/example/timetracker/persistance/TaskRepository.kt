@@ -12,7 +12,6 @@ class TaskRepository @Inject constructor(
 ) {
     fun saveTask(task: Task): Observable<String> {
         return remoteSource.saveTask(task)
-
     }
 
     fun getTask(taskId: String): Observable<Task?> {

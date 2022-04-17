@@ -1,18 +1,23 @@
 package com.example.timetracker.space
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
 import com.example.timetracker.task.Task
 import com.example.timetracker.timer.TaskTimer
 import com.google.firebase.firestore.Exclude
 import javax.inject.Inject
 
+@Entity(primaryKeys = ["id"])
 class Space @Inject constructor() {
 
+    @Ignore
     @Exclude
     private var activeTaskTimer: TaskTimer? = TaskTimer(Task())
 
-    private var name: String = ""
-    private var userId: String = ""
-    private var id: String = ""
+    @ColumnInfo(name = "name") private var name: String = ""
+    @ColumnInfo(name = "userId") private var userId: String = ""
+    @ColumnInfo(name = "id") private var id: String = ""
 
     fun getId() = id
     fun setId(id: String) {
@@ -33,6 +38,7 @@ class Space @Inject constructor() {
 
     fun getName() = name
 
+    @Ignore
     @Exclude
     fun getActiveTaskTimer(): TaskTimer? = activeTaskTimer
 

@@ -1,19 +1,42 @@
 package com.example.timetracker.task
 
-import com.example.timetracker.persistance.room.RoomTask
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
 import com.google.firebase.firestore.Exclude
 import org.joda.time.DateTime
 import org.joda.time.Seconds
 import javax.inject.Inject
 
+@Entity(primaryKeys = ["id"])
 class Task @Inject constructor() {
+
+    @ColumnInfo(name = "description")
     private var description: String? = ""
+
+    @ColumnInfo(name = "startTime")
     private var startTime: Long? = null
+
+    @ColumnInfo(name = "endTime")
     private var endTime: Long? = null
+
+    @ColumnInfo(name = "timeIntervals")
     private var timeIntervals: MutableList<TimeInterval> = ArrayList()
+
+    @ColumnInfo(name = "space")
     private var space: String? = ""
+
+    @ColumnInfo(name = "userId")
     private var userId: String? = ""
-    private var id: String? = ""
+
+    @ColumnInfo(name = "id")
+    private lateinit var id: String
+
+    @ColumnInfo(name = "createdAt")
+    private var createdAt: Long? = DateTime().millis
+
+    @Ignore
+    @Exclude
     private var isTaskOngoing: Boolean = false
         set(value) {
             field = value
@@ -33,6 +56,11 @@ class Task @Inject constructor() {
     fun getTimeIntervals() = timeIntervals
     fun getSpace() = space
     fun getUserId() = userId
+    fun getCreatedAt() = createdAt
+
+    fun setCreatedAt(createdAt: Long) {
+        this.createdAt = createdAt
+    }
 
     fun setDescription(description: String) {
         this.description = description
@@ -92,15 +120,6 @@ class Task @Inject constructor() {
         "desc: $description startTime: $startTime - endTime: $endTime - " +
                 timeIntervals.toString()
 
-
-    fun convertToRoom() = RoomTask(
-        0,
-        description,
-        startTime = startTime!!,
-        endTime = endTime!!,
-        timeIntervals,
-        createdAt = DateTime().toString()
-    )
 
     @Exclude
     private fun getTotalTime(): Long {

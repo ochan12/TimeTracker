@@ -14,19 +14,4 @@ class Converters {
     @TypeConverter
     fun jsonToList(value: String) = Gson().fromJson(value, Array<TimeInterval>::class.java).toList()
 
-    @TypeConverter
-    fun dateTimeToMillis(value: DateTime) = value.millis
-
-    @TypeConverter
-    fun millisToDateTime(value: Long) = DateTime(value)
-
-    @TypeConverter
-    fun toRoomTask(task: Task) = RoomTask(
-        0,
-        task.getDescription(),
-        task.getStartTime()!!,
-        task.getEndTime()!!,
-        task.getTimeIntervals(),
-        createdAt = DateTime().toString()
-    )
 }
