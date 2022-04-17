@@ -8,7 +8,7 @@ import com.example.timetracker.task.Task
 import com.example.timetracker.user.User
 
 @Database(
-    entities = [Task::class, User::class, Space::class], version = 1
+    entities = [Task::class, User::class, Space::class], version = 2
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
