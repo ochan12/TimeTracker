@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_spaces"
-        android:icon="@drawable/ic_baseline_play_arrow_24"
+        android:icon="@drawable/ic_baseline_space_dashboard_24"
         android:title="@string/space"
         android:visible="true"
         app:showAsAction="ifRoom" />
