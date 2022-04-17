@@ -24,10 +24,11 @@
         <activity android:name=".space.SpaceActivity" />
         <activity android:name=".task.SaveTaskActivity" />
         <activity android:name=".auth.LoginActivity" />
-        <activity android:name=".main_menu.MainMenuActivity" />
+        <activity android:name=".mainMenu.MainMenuActivity" />
         <activity android:name=".createSpace.CreateSpaceActivity" />
         <activity android:name=".auth.ProfileActivity" />
         <activity android:name=".task.ListTasksActivity" />
+        <activity android:name=".tutorial.AppTutorial" />
 
     </application>
 </manifest>

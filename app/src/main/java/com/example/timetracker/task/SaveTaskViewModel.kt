@@ -37,9 +37,11 @@ class SaveTaskViewModel @Inject constructor(
         finalTask.setDescription(description)
         finalTask.setSpace(spaceId)
         authRepository.getUserId().subscribe { userId ->
-            finalTask.setUserId(userId)
-            taskRepository.saveTask(finalTask).subscribe {
-                isSaving.postValue(false)
+            if (!userId.isNullOrEmpty()) {
+                finalTask.setUserId(userId)
+                taskRepository.saveTask(finalTask).subscribe {
+                    isSaving.postValue(false)
+                }
             }
         }
     }

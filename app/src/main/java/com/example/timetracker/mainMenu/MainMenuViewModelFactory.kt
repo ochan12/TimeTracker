@@ -1,11 +1,9 @@
-package com.example.timetracker.main_menu
+package com.example.timetracker.mainMenu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
-import com.example.timetracker.task.SaveTaskViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 class MainMenuViewModelFactory(
     private val spaceRepository: SpaceRepository,

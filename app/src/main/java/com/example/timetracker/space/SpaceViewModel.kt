@@ -52,18 +52,19 @@ class SpaceViewModel @Inject constructor(
         val task = _space.value?.getActiveTaskTimer()?.currentTask!!
         task.setSpace(spaceId)
         authRepository.getUserId().subscribe { userId ->
-            task.setUserId(userId)
-            taskRepository.saveTask(
-                task
-            ).subscribe({
-                Log.e(TAG, "saved task $it")
-                _isLoading.postValue(false)
-                savedTaskId.postValue(it)
-            },
-                {
-                    Log.e(TAG, it.message.toString())
-                })
-
+            if (!userId.isNullOrEmpty()) {
+                task.setUserId(userId)
+                taskRepository.saveTask(
+                    task
+                ).subscribe({
+                    Log.e(TAG, "saved task $it")
+                    _isLoading.postValue(false)
+                    savedTaskId.postValue(it)
+                },
+                    {
+                        Log.e(TAG, it.message.toString())
+                    })
+            }
         }
 
     }

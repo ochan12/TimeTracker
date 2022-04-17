@@ -30,8 +30,10 @@ class ListTasksViewModel @Inject constructor(
 
     private fun loadSpaces() {
         authRepository.getUserId().subscribe { userId ->
-            spaceRepository.getSpaces(userId).subscribe {
-                spaces.postValue(it)
+            if (!userId.isNullOrEmpty()) {
+                spaceRepository.getSpaces(userId).subscribe {
+                    spaces.postValue(it)
+                }
             }
         }
     }
@@ -41,8 +43,10 @@ class ListTasksViewModel @Inject constructor(
 
     private fun loadTasks() {
         authRepository.getUserId().subscribe { userId ->
-            taskRepository.getAllTasks(userId).subscribe {
-                tasks.postValue(it)
+            if (!userId.isNullOrEmpty()) {
+                taskRepository.getAllTasks(userId).subscribe {
+                    tasks.postValue(it)
+                }
             }
         }
     }

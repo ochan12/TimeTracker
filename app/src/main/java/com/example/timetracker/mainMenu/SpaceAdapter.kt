@@ -1,4 +1,4 @@
-package com.example.timetracker.main_menu
+package com.example.timetracker.mainMenu
 
 import android.content.Intent
 import android.view.LayoutInflater

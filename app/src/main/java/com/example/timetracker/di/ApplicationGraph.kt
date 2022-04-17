@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.timetracker.MainActivity
 import com.example.timetracker.auth.ProfileActivity
 import com.example.timetracker.createSpace.CreateSpaceActivity
-import com.example.timetracker.main_menu.MainMenuActivity
+import com.example.timetracker.mainMenu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepositoryModule
 import com.example.timetracker.persistance.SpaceRepositoryModule
 import com.example.timetracker.persistance.TaskRepositoryModule

@@ -60,7 +60,7 @@ dependencies {
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:2.4.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.4.1")
-
+    implementation 'com.github.AppIntro:AppIntro:6.2.0'
 
     kapt 'com.google.dagger:dagger-compiler:2.41'
     kapt "androidx.room:room-compiler:2.4.2"

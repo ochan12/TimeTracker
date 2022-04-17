@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.timetracker.R
 import com.example.timetracker.di.DaggerApplicationGraph
-import com.example.timetracker.main_menu.MainMenuActivity
+import com.example.timetracker.mainMenu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.task.ListTasksActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView

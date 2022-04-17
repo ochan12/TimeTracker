@@ -14,9 +14,13 @@ class AuthRemoteSource @Inject constructor(
     private val db: FirebaseFirestore
 ) : AuthSource() {
 
-    override fun getUserId(): Observable<String> {
+    override fun getUserId(): Observable<String?> {
         return Observable.create {
-            it.onNext(auth.currentUser?.uid!!)
+            if(auth.currentUser != null){
+                it.onNext(auth.currentUser!!.uid)
+            } else {
+                it.onNext("")
+            }
         }
 
 

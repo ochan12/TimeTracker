@@ -1,4 +1,4 @@
-package com.example.timetracker.main_menu
+package com.example.timetracker.mainMenu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,14 +17,18 @@ class MainMenuViewModel @Inject constructor(
         }
     }
 
+    private val isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    fun isLoading() = isLoading
     @JvmName("getSpaces1")
     fun getSpaces() = spaces
 
     fun loadSpaces() {
         authRepository.getUserId().subscribe { userId ->
-            spaceRepository.getSpaces(userId).subscribe {
-                spaces.postValue(it)
-            }
+            if (!userId.equals("") && !userId.isNullOrEmpty())
+                spaceRepository.getSpaces(userId).subscribe {
+                    spaces.postValue(it)
+                }
+            else isLoading.postValue(false)
         }
     }
 }

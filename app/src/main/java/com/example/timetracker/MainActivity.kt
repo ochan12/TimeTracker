@@ -1,14 +1,14 @@
 package com.example.timetracker
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.timetracker.auth.LoginActivity
 import com.example.timetracker.di.DaggerApplicationGraph
-import com.example.timetracker.main_menu.MainMenuActivity
+import com.example.timetracker.mainMenu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepository
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.lang.NumberFormatException
+import com.example.timetracker.tutorial.AppTutorial
 import javax.inject.Inject
 
 class MainActivity @Inject constructor() : AppCompatActivity() {
@@ -20,13 +20,25 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerApplicationGraph.factory().create(applicationContext).inject(this)
         super.onCreate(savedInstanceState)
+        val newIntent: Intent
         // setContentView(R.layout.activity_main)
-        val newIntent: Intent = if (authRepository.currentUser() !== null) {
-            Intent(this, MainMenuActivity::class.java)
+        if (getSharedPreferences(
+                getString(R.string.shared_preferences),
+                Context.MODE_PRIVATE
+            ).getBoolean(
+                getString(R.string.shared_preferences_first_time),
+                true
+            )
+        ) {
+            newIntent = Intent(this, AppTutorial::class.java)
         } else {
-            Intent(this, LoginActivity::class.java)
-        }
+            newIntent = if (authRepository.currentUser() != null) {
+                Intent(this, MainMenuActivity::class.java)
+            } else {
+                Intent(this, LoginActivity::class.java)
+            }
 
+        }
         startActivity(newIntent)
     }
 }

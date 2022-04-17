@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.timetracker.R
 import com.example.timetracker.auth.ProfileActivity
 import com.example.timetracker.di.DaggerApplicationGraph
-import com.example.timetracker.main_menu.MainMenuActivity
+import com.example.timetracker.mainMenu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.persistance.SpaceRepository
 import com.example.timetracker.persistance.TaskRepository

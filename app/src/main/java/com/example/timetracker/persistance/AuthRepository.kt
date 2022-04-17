@@ -10,7 +10,7 @@ class AuthRepository @Inject constructor(
     private val authRemoteSource: AuthRemoteSource,
     private val authLocalSource: AuthLocalSource,
 ) {
-    fun getUserId(): Observable<String> {
+    fun getUserId(): Observable<String?> {
         return if(isOnline()){
              authRemoteSource.getUserId()
         } else {

@@ -15,4 +15,14 @@
     <string name="activity">Actividad</string>
     <string name="sign_out">Cerrar sesión</string>
     <string name="duration">Tiempo total</string>
+    <string name="slide_welcome_title">Bienvenido!</string>
+    <string name="slide_welcome_description">Esta aplicación te ayudará los distintos aspectos de tu día a día</string>
+    <string name="slide_spaces_title">Espacios</string>
+    <string name="slide_spaces_description">Cada aspecto de tu vida es un espacio, por qué no medir el tiempo que pasas en cada uno?</string>
+    <string name="slide_tasks_title">Actividades</string>
+    <string name="slide_tasks_description">Cuando empieces a hacer algo en tu espacio, recuerda empezar el temptorizador de tu tarea (siempre puedes crear un actividad sin necesidad del temporizador). Puedes pausar y continuar una actividad en cualquier momento</string>
+    <string name="slide_account_title">Cuenta online</string>
+    <string name="slide_account_description">Te recomendamos que inicies sesión para que nunca pierdas tu historial, pero también puedes usar esta app sin iniciar sesión.</string>
+    <string name="slide_final_title">Listos. Preparados. Ya!</string>
+    <string name="slide_final_description">Todo listo para comenzar!</string>
 </resources>

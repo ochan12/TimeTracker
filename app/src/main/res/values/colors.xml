@@ -10,4 +10,8 @@
     <color name="start_green">#4CAF50</color>
     <color name="pause_yellow">#FFEB3B</color>
     <color name="stop_red">#F44336</color>
+    <color name="tutorial_title">#FF3700B3</color>
+    <color name="tutorial_description">#FFBB86FC</color>
+    <color name="tutorial_res_color">#FF018786</color>
+    <color name="tutorial_background">#C3FFFF</color>
 </resources>

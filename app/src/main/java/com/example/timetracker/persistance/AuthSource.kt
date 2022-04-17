@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Observable
 
 abstract class AuthSource {
      val collection = "users"
-    abstract fun getUserId(): Observable<String>
+    abstract fun getUserId(): Observable<String?>
     abstract fun getCurrentUser(): Observable<User?>
     abstract fun signOut(): Unit
 }

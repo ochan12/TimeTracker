@@ -10,23 +10,25 @@ import javax.inject.Inject
 class CreateSpaceViewModel @Inject constructor(
     private val spaceRepository: SpaceRepository,
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val currentSpace: Space = Space()
     private var isCreated: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun changeName(name: String){
+    fun changeName(name: String) {
         currentSpace.setName(name)
     }
 
     fun getCreated() = isCreated
 
-    fun createSpace(){
-        if(currentSpace.getName() !== ""){
+    fun createSpace() {
+        if (currentSpace.getName() !== "") {
             authRepository.getUserId().subscribe {
-                currentSpace.setUserId(it)
-                spaceRepository.saveSpace(currentSpace).subscribe {
-                    isCreated.postValue(true)
+                if (!it.isNullOrEmpty()) {
+                    currentSpace.setUserId(it)
+                    spaceRepository.saveSpace(currentSpace).subscribe {
+                        isCreated.postValue(true)
+                    }
                 }
             }
         }

@@ -14,4 +14,16 @@
     <string name="activity">Activity</string>
     <string name="sign_out">Sign out</string>
     <string name="duration">Total time</string>
+    <string name="shared_preferences" translatable="false">timeTrackerPreferences</string>
+    <string name="shared_preferences_first_time" translatable="false">firstTime</string>
+    <string name="slide_welcome_title">Welcome!</string>
+    <string name="slide_welcome_description">This app will help you track different aspects of your life</string>
+    <string name="slide_spaces_title">Spaces</string>
+    <string name="slide_spaces_description">Each aspect of your life is a space, so why not track the time you put into each of them?</string>
+    <string name="slide_tasks_title">Tasks</string>
+    <string name="slide_tasks_description">Whenever you begin doing something in some space make sure you start the timer task. (You can always create an extra entry later). You can pause and start again whenever you want</string>
+    <string name="slide_account_title">Online account</string>
+    <string name="slide_account_description">We recommend you to login using some of our login providers so you will never lose your history, but you can always keep it offline and on your device</string>
+    <string name="slide_final_title">Ready. Set. Go!</string>
+    <string name="slide_final_description">You\'re ready to begin, happy tracking!</string>
 </resources>

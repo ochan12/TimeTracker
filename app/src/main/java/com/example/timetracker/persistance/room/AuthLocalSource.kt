@@ -13,11 +13,11 @@ import javax.inject.Singleton
 class AuthLocalSource @Inject constructor(
     private val db: AppDatabase
 ) : AuthSource(), Taggable {
-    override fun getUserId(): Observable<String> {
+    override fun getUserId(): Observable<String?> {
         return Observable.create<String> {
             runBlocking {
                 val user = db.userDao().getCurrentUser()
-                user?.getId()?.let { it1 -> it.onNext(it1) }
+                it.onNext(user?.getId())
             }
         }
     }
