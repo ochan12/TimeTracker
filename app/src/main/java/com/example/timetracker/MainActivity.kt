@@ -3,15 +3,17 @@ package com.example.timetracker
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.timetracker.auth.LoginActivity
 import com.example.timetracker.di.DaggerApplicationGraph
+import com.example.timetracker.helpers.Taggable
 import com.example.timetracker.mainMenu.MainMenuActivity
 import com.example.timetracker.persistance.AuthRepository
 import com.example.timetracker.tutorial.AppTutorial
 import javax.inject.Inject
 
-class MainActivity @Inject constructor() : AppCompatActivity() {
+class MainActivity @Inject constructor() : AppCompatActivity(), Taggable {
 
 
     @Inject
@@ -20,7 +22,7 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerApplicationGraph.factory().create(applicationContext).inject(this)
         super.onCreate(savedInstanceState)
-        val newIntent: Intent
+        var newIntent: Intent
         // setContentView(R.layout.activity_main)
         if (getSharedPreferences(
                 getString(R.string.shared_preferences),
@@ -32,13 +34,16 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         ) {
             newIntent = Intent(this, AppTutorial::class.java)
         } else {
-            newIntent = if (authRepository.currentUser() != null) {
-                Intent(this, MainMenuActivity::class.java)
-            } else {
-                Intent(this, LoginActivity::class.java)
+            authRepository.currentUser().subscribe { user ->
+                Log.e(TAG, user.toString())
+                newIntent = if (user?.equals(null) == false) {
+                    Intent(this, MainMenuActivity::class.java)
+                } else {
+                    Intent(this, LoginActivity::class.java)
+                }
+                startActivity(newIntent)
             }
 
         }
-        startActivity(newIntent)
     }
 }

@@ -1,5 +1,7 @@
 package com.example.timetracker.persistance
 
+import android.util.Log
+import com.example.timetracker.helpers.Taggable
 import com.example.timetracker.persistance.remote.AuthRemoteSource
 import com.example.timetracker.persistance.room.AuthLocalSource
 import com.example.timetracker.user.User
@@ -10,9 +12,9 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authRemoteSource: AuthRemoteSource,
     private val authLocalSource: AuthLocalSource,
-) {
+) : Taggable {
 
-    fun getUserId(): Observable<String?> {
+    fun getUserId(): Observable<String> {
         return Observable.create { user ->
             isOnline().subscribe { online ->
                 if (online) authRemoteSource.getUserId().subscribe { user.onNext(it) }
@@ -22,12 +24,17 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    fun currentUser(): Observable<User?> {
+    fun currentUser(): Observable<User> {
+        Log.e(TAG, "currentUser")
         return Observable.create { user ->
             isOnline().subscribe { online ->
-                if (online) authRemoteSource.getCurrentUser().subscribe { user.onNext(it) }
-                else authLocalSource.getCurrentUser().subscribeOn(Schedulers.computation())
-                    .subscribe { user.onNext(it) }
+                if (online == true) authRemoteSource.getCurrentUser().subscribe { user.onNext(it) }
+                else authLocalSource.getCurrentUser().subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.computation())
+                    .doOnNext { it -> user.onNext(it);Log.e(TAG, it.toString()) }
+                    .doOnError { error -> Log.e(TAG, error.localizedMessage) }
+                    .subscribe()
+
             }
         }
     }
@@ -36,8 +43,12 @@ class AuthRepository @Inject constructor(
         return Observable.create {
             authRemoteSource.getCurrentUser().subscribe({ user ->
                 user?.equals(null)?.let { userOnline -> it.onNext(userOnline) }
-            }, { error -> it.onNext(false) })
+            }, { _ -> it.onNext(false) })
         }
+    }
+
+    fun createUser(): Observable<Long> {
+        return authLocalSource.createUser().toObservable()
     }
 
     fun signOut(): Unit {
