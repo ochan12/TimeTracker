@@ -1,6 +1,7 @@
 package com.example.timetracker.createSpace
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,8 @@ import com.example.timetracker.persistance.SpaceRepository
 import com.google.android.material.textfield.TextInputEditText
 import javax.inject.Inject
 
-class CreateSpaceActivity @Inject constructor(): AppCompatActivity(R.layout.activity_create_space) {
+class CreateSpaceActivity @Inject constructor() :
+    AppCompatActivity(R.layout.activity_create_space) {
 
     @Inject
     lateinit var spaceRepository: SpaceRepository
@@ -22,7 +24,7 @@ class CreateSpaceActivity @Inject constructor(): AppCompatActivity(R.layout.acti
     lateinit var saveButton: Button
     lateinit var spaceName: TextInputEditText
 
-    val model: CreateSpaceViewModel by viewModels {
+    private val model: CreateSpaceViewModel by viewModels {
         CreateSpaceViewModelFactory(spaceRepository, authRepository)
     }
 
@@ -39,8 +41,9 @@ class CreateSpaceActivity @Inject constructor(): AppCompatActivity(R.layout.acti
             model.changeName(spaceName.text.toString())
             model.createSpace()
         }
-        model.getCreated().observe(this) {
-            if (it == true){
+        model.isCreated.observe(this) {
+            Log.e("Created space", it.toString())
+            if (it == true) {
                 finish()
             }
         }

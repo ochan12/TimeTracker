@@ -87,7 +87,9 @@ class MainMenuActivity : AppCompatActivity(R.layout.activity_main_menu), Taggabl
 
     override fun onResume() {
         super.onResume()
+        val size = spacesList.size
+        spacesList.clear()
+        spacesRecyclerView.adapter?.notifyItemRangeRemoved(0, size)
         model.loadSpaces()
-
     }
 }

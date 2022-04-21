@@ -19,22 +19,30 @@ class AuthRepository @Inject constructor(
             isOnline().subscribe { online ->
                 if (online) authRemoteSource.getUserId().subscribe { user.onNext(it) }
                 else authLocalSource.getUserId().subscribeOn(Schedulers.computation())
+                    .observeOn(Schedulers.io())
                     .subscribe { user.onNext(it) }
             }
         }
     }
 
     fun currentUser(): Observable<User> {
-        Log.e(TAG, "currentUser")
         return Observable.create { user ->
             isOnline().subscribe { online ->
                 if (online == true) authRemoteSource.getCurrentUser().subscribe { user.onNext(it) }
-                else authLocalSource.getCurrentUser().subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.computation())
-                    .doOnNext { it -> user.onNext(it);Log.e(TAG, it.toString()) }
-                    .doOnError { error -> Log.e(TAG, error.localizedMessage) }
-                    .subscribe()
+                else {
+                    authLocalSource.getCurrentUser().subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io()).subscribe(
+                            { u ->
+                                Log.e(TAG, u.toString())
+                                user.onNext(u)
+                            },
+                            { e -> Log.e(TAG, e.localizedMessage.toString()) },
+                            {
+                                Log.e(TAG, "complete")
+                                user.onComplete()
+                            })
 
+                }
             }
         }
     }
@@ -42,13 +50,14 @@ class AuthRepository @Inject constructor(
     fun isOnline(): Observable<Boolean> {
         return Observable.create {
             authRemoteSource.getCurrentUser().subscribe({ user ->
-                user?.equals(null)?.let { userOnline -> it.onNext(userOnline) }
-            }, { _ -> it.onNext(false) })
+                user.equals(null).let { userOnline -> it.onNext(userOnline) }
+            }, { _ -> it.onNext(false) }
+            )
         }
     }
 
     fun createUser(): Observable<Long> {
-        return authLocalSource.createUser().toObservable()
+        return authLocalSource.createUser().subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
     }
 
     fun signOut(): Unit {

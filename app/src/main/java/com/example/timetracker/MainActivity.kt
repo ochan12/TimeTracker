@@ -22,7 +22,7 @@ class MainActivity @Inject constructor() : AppCompatActivity(), Taggable {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerApplicationGraph.factory().create(applicationContext).inject(this)
         super.onCreate(savedInstanceState)
-        var newIntent: Intent
+        var newIntent: Intent? = null
         // setContentView(R.layout.activity_main)
         if (getSharedPreferences(
                 getString(R.string.shared_preferences),
@@ -33,16 +33,24 @@ class MainActivity @Inject constructor() : AppCompatActivity(), Taggable {
             )
         ) {
             newIntent = Intent(this, AppTutorial::class.java)
+            startActivity(newIntent)
         } else {
-            authRepository.currentUser().subscribe { user ->
+            authRepository.currentUser().subscribe({ user ->
                 Log.e(TAG, user.toString())
-                newIntent = if (user?.equals(null) == false) {
+                newIntent = if (!user.equals(null)) {
                     Intent(this, MainMenuActivity::class.java)
                 } else {
                     Intent(this, LoginActivity::class.java)
                 }
                 startActivity(newIntent)
-            }
+            }, { e -> Log.e(TAG, e.localizedMessage.toString()) },
+                {
+                    Log.e(TAG, "complete")
+                    if (newIntent == null) {
+                        newIntent = Intent(this, LoginActivity::class.java)
+                        startActivity(newIntent)
+                    }
+                })
 
         }
     }

@@ -12,5 +12,5 @@ abstract class AuthSource {
     abstract fun getUserId(): Observable<String>
     abstract fun getCurrentUser(): Observable<User>
     abstract fun signOut(): Unit
-    abstract fun createUser(): Completable
+    abstract fun createUser(): Observable<Long>
 }

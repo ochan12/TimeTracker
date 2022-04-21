@@ -2,6 +2,7 @@ package com.example.timetracker.di
 
 import android.content.Context
 import com.example.timetracker.MainActivity
+import com.example.timetracker.auth.LoginActivity
 import com.example.timetracker.auth.ProfileActivity
 import com.example.timetracker.createSpace.CreateSpaceActivity
 import com.example.timetracker.mainMenu.MainMenuActivity
@@ -36,6 +37,7 @@ interface ApplicationGraph {
     fun inject(app: CreateSpaceActivity)
     fun inject(app: ListTasksActivity)
     fun inject(app: ProfileActivity)
+    fun inject(app: LoginActivity)
 
     @Component.Factory
     interface Factory {

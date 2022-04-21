@@ -1,5 +1,7 @@
 package com.example.timetracker.persistance.remote
 
+import android.util.Log
+import com.example.timetracker.helpers.Taggable
 import com.example.timetracker.persistance.AuthSource
 import com.example.timetracker.user.User
 import com.google.firebase.auth.FirebaseAuth
@@ -14,7 +16,7 @@ import javax.inject.Singleton
 class AuthRemoteSource @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore
-) : AuthSource() {
+) : AuthSource(), Taggable {
 
     override fun getUserId(): Observable<String> {
         return Observable.create {
@@ -30,11 +32,15 @@ class AuthRemoteSource @Inject constructor(
 
     override fun getCurrentUser(): Observable<User> {
         val userId = auth.currentUser?.uid
+        Log.e(TAG, userId.toString())
         return Observable.create { emitter ->
             if (userId != null) {
                 db.collection(this.collection).document(userId).get().addOnCompleteListener {
                     emitter.onNext(it.result.toObject(User::class.java))
                 }
+            } else {
+                emitter.onNext(null)
+                emitter.onComplete()
             }
         }
     }
@@ -43,7 +49,7 @@ class AuthRemoteSource @Inject constructor(
         return auth.signOut()
     }
 
-    override fun createUser(): Completable {
-        return Completable.complete()
+    override fun createUser(): Observable<Long> {
+        return Observable.just(1)
     }
 }
